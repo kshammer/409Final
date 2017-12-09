@@ -3,7 +3,7 @@ import math
 import random
 patterns = []
 neurons = []
-alpha = 0.01
+alpha = 0.1
 orignalNeurons = []
 
 def readFile():
@@ -28,7 +28,7 @@ def normalizeData():
         normal = math.sqrt(normal)
         pattern[0] = (pattern[0] / normal)
         pattern[1] = (pattern[1] / normal)
-def genNeurons(amount):
+def genRandomNeurons(amount):
     for i in range(amount):
         neuron = []
         neuron2 = []
@@ -94,25 +94,40 @@ def graphNeurons():
     plt.xlim([-1.1, 1.1])
     plt.show()
 
-def calcNet():
-    total = [0,0]
-    for pattern in patterns:
-        for neuron in neurons:
-            for i in range(2):
-                total[i] += pattern[i] * neuron[i]
-        best = total.index(max(total))
-        print(best)
-        neurons[best][0] = neurons[best][0] + alpha*pattern[0]
-        neurons[best][1] = neurons[best][1] + alpha*pattern[1]
-        normalizeNeurons()
-        #graphNeurons()
+def calcNet(x):
+    for i in range(x):
+        for pattern in patterns:
+            total = []
+
+            for neuron in neurons:
+                value = 0
+                value += pattern[0] * neuron[0]
+                value += pattern[1] * neuron[1]
+                total.append(value)
+
+            best = total.index(max(total))
+            print(best)
+            neurons[best][0] = neurons[best][0] + alpha*pattern[0]
+            neurons[best][1] = neurons[best][1] + alpha*pattern[1]
+            normalizeNeurons()
+        graphNeurons()
+def genNeurons():
+    neuron1 = [1,0]
+    neuron2 = [-1,-1]
+    neuron3 = [1, 0]
+    neuron4 = [-1, -1]
+    neurons.append(neuron1)
+    neurons.append(neuron2)
+    orignalNeurons.append(neuron3)
+    orignalNeurons.append(neuron4)
+
 
 
 readFile()
 normalizeData()
-graphData()
-genNeurons(2)
+#graphData()
+genRandomNeurons(7)
+#genNeurons()
 normalizeNeurons()
 graphNeurons()
-calcNet()
-graphNeurons()
+calcNet(3)
