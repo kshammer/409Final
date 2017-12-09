@@ -1,3 +1,9 @@
 import matplotlib.pyplot as plt
 def graph(data):
-    fig = plt.figure()
+    x = []
+    y = []
+    for d in data:
+        x.append(d[0])
+        y.append(d[1])
+    plt.scatter(x,y)
+    plt.show()
