@@ -6,6 +6,7 @@ neurons = []
 alpha = 0.1
 orignalNeurons = []
 
+#Reads the file and tokenizes the data
 def readFile():
     with open("../Data/Ex1_data.txt") as data:
         lines = data.read().split('\n')[1:]
@@ -14,20 +15,25 @@ def readFile():
             tokens = line.split(',')
             for token in tokens:
                 try:
+                    #makes sure data is correct
                     pattern.append(float(token))
                 except:
                     print(token)
+            #accounts for empty lines
             if len(pattern) == 0:
                 print("no pattern found")
             else:
                 patterns.append(pattern)
 
+#does a vector normalization
 def normalizeData():
     for pattern in patterns:
         normal = (pattern[0] ** 2) + (pattern[1] ** 2)
         normal = math.sqrt(normal)
         pattern[0] = (pattern[0] / normal)
         pattern[1] = (pattern[1] / normal)
+
+#generates an amount of random neurons
 def genRandomNeurons(amount):
     for i in range(amount):
         neuron = []
@@ -41,17 +47,21 @@ def genRandomNeurons(amount):
         neurons.append(neuron)
         orignalNeurons.append(neuron2)
 
+#normalizes their weights
 def normalizeNeurons():
     for neuron in neurons:
         normal = (neuron[0] ** 2) + (neuron[1] ** 2)
         normal = math.sqrt(normal)
         neuron[0] = (neuron[0] / normal)
         neuron[1] = (neuron[1] / normal)
+    # used to keep track of the original positions
     for coolNeuron in orignalNeurons:
         normal = (coolNeuron[0] ** 2) + (coolNeuron[1] ** 2)
         normal = math.sqrt(normal)
         coolNeuron[0] = (coolNeuron[0] / normal)
         coolNeuron[1] = (coolNeuron[1] / normal)
+
+#displays the data without any nueurons
 def graphData():
     x = []
     y = []
@@ -65,6 +75,8 @@ def graphData():
     plt.ylim([-1.1,1.1])
     plt.xlim([-1.1,1.1])
     plt.show()
+
+#creates a plot with the neurons
 def graphNeurons():
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
@@ -93,6 +105,7 @@ def graphNeurons():
     plt.xlim([-1.1, 1.1])
     plt.show()
 
+#calculates the net distance between neuron and pattern
 def calcNet(x):
     for i in range(x):
         for pattern in patterns:
@@ -110,6 +123,8 @@ def calcNet(x):
             neurons[best][1] = neurons[best][1] + alpha*pattern[1]
             normalizeNeurons()
         graphNeurons()
+
+#creates non random neurons
 def genNeurons():
     neuron1 = [1,0]
     neuron2 = [-1,-1]
@@ -125,8 +140,10 @@ def genNeurons():
 readFile()
 normalizeData()
 #graphData()
+#how many random neurons to generate
 genRandomNeurons(3)
 #genNeurons()
 normalizeNeurons()
 graphNeurons()
+#the value is how many iterations to run
 calcNet(1)

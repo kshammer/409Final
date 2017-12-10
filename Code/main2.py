@@ -7,6 +7,7 @@ test = []
 trainDic = {}
 info = []
 accuracy = [0, 0]
+#reads the data
 def readFile():
     with open("../Data/Ex2_train.txt") as data:
         lines = data.read().split('\n')[1:]
@@ -31,7 +32,7 @@ def readFile():
 
             try:
                 pattern.append(float(tokens[0]))
-                pattern.append(float(tokens[1]))
+                pattern.append(int(tokens[1]))
             except:
                 print(tokens)
             if len(pattern) == 0:
@@ -39,6 +40,7 @@ def readFile():
             else:
                 test.append(pattern)
 
+#puts the data into a dictionary based off of the class
 def splitDataByClass():
     trainDic[1] = []
     trainDic[2] = []
@@ -46,6 +48,7 @@ def splitDataByClass():
     for t in train:
         trainDic[t[1]].append(t[0])
 
+#gets the mean and std for each set of data
 def getInfo():
     for key in trainDic:
         information = []
@@ -53,6 +56,7 @@ def getInfo():
         information.append(np.std(trainDic[key]))
         info.append(information)
 
+#graphs the distro of the probablities
 def graphDistro():
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
@@ -68,6 +72,7 @@ def graphDistro():
     plt.legend(loc='upper left')
     plt.show()
 
+#tests the accuracy of the classifications
 def testAccuracy():
     for pattern in test:
         results = []
@@ -77,6 +82,7 @@ def testAccuracy():
             results.append(top * bottom)
         print(results)
         print(pattern[1])
+        #takes the best match
         best = results.index(max(results))
         if best + 1 == pattern[1]:
             accuracy[0] += 1
@@ -90,4 +96,5 @@ splitDataByClass()
 getInfo()
 graphDistro()
 testAccuracy()
+#prints out the accuracy
 print(accuracy)
