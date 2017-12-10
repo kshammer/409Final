@@ -16,7 +16,7 @@ def readFile():
                 try:
                     pattern.append(float(token))
                 except:
-                    print("Could not add pattern " + token)
+                    print(token)
             if len(pattern) == 0:
                 print("no pattern found")
             else:
@@ -83,7 +83,6 @@ def graphNeurons():
     for neuron1 in orignalNeurons:
         xOG.append(neuron1[0])
         yOG.append(neuron1[1])
-    ax1.scatter
     ax1.scatter(xData, yData, s=10, c='b', marker='s', label='patterns')
     ax1.scatter(xNeurons,yNeurons, s=15, c='r', marker='o', label='neurons')
     ax1.scatter(xOG, yOG, s=15, c='g', marker='x', label='originalPosition')
